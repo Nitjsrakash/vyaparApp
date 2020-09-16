@@ -14,7 +14,7 @@ export default class VenderTab extends Component{
                 <View >
                     <Text>This is Home Screen</Text> 
                 </View>  
-                <FloatingBtn/>
+                {/* <FloatingBtn/> */}
             </View>  
         )  
     }  

@@ -15,11 +15,6 @@ import NavigationService  from '../utils/NavigationService/NavigationService'
 
  class FloatingBtn extends Component {
 
-    clickHandler = () => {
-        // function to handle click on floating Action Button
-        // onPress={() => NavigationService.navigate('DetailPage',{itemValue} )}
-        // Alert.alert('Floating Button Clicked');
-      };
    render(){
      return(
         <TouchableOpacity
@@ -51,7 +46,7 @@ uri:'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_ico
       alignItems: 'center',
       justifyContent: 'center',
       right: 30,
-      bottom: 30,
+      bottom: 50,
     //   borderWidth:1
     },
   

@@ -5,7 +5,7 @@ import NavigationService from '../NavigationService/NavigationService'
 import RootStack from './RootStack'
 import AuthenticationStack from './AuthenticationStack'
 
-import TopNav from './TopNav'
+
 
 
 
@@ -20,7 +20,7 @@ import TopNav from './TopNav'
         AuthenticationStack: AuthenticationStack(),
       }, 
       {
-        initialRouteName: false ? "RootStack" : "AuthenticationStack"
+        initialRouteName: true ? "RootStack" : "AuthenticationStack"
       })
     );
     return (

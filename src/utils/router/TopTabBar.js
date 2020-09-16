@@ -2,19 +2,21 @@ import React from 'react';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import CustomerTab from '../../component/TopTab/CustomerTab'
 import VenderTab from  '../../component/TopTab/VenderTab'
+import Fonts from '../Fonts';
   
 const AppTabNavigator = createMaterialTopTabNavigator(  
     {  
-        CustomerTab: CustomerTab,  
-        VenderTab: VenderTab,   
+        Customer: CustomerTab,  
+        Vender: VenderTab,   
     },  
     {  
         tabBarOptions: {  
-            activeTintColor: 'white',  
-            showIcon: true,  
-            showLabel:false,  
+            activeTintColor: 'white',
+            // inactiveTintColor:'gray',  
+            showIcon: false,  
+            showLabel:true,  
             style: {  
-                backgroundColor:'red'  
+                backgroundColor:'red',
             }  
         },  
     }  
