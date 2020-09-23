@@ -6,10 +6,13 @@ import {
   View,
   Text,
   StatusBar,
-  Image, TouchableOpacity, Alert, Dimensions,TextInput
+  Image, TouchableOpacity, Alert, Dimensions,TextInput,Modal,AsyncStorage
 } from 'react-native';
-import axios from 'axios'
+
 import NavigationService from '../../utils/NavigationService/NavigationService'
+import Loader from '../Custom/ActivityIndicator/Loader'
+
+import {getFetch, postFetch} from '../../utils/APIManager/ApiCall'
 
 
 var deviceHeight = Dimensions.get('window').height;
@@ -27,8 +30,11 @@ var deviceWidth = Dimensions.get('window').width;
             email:'',
             mobile:'',
             password:'',
+            isLoding:false,
         }
     }
+
+
     handleName = (text) => {
         this.setState({ name: text })
      }
@@ -42,7 +48,27 @@ var deviceWidth = Dimensions.get('window').width;
     handlePassword = (text) => {
     this.setState({ password: text })
     }
-    customerProfilerender(){
+    
+     saveData(){
+        this.setState({isLoding:true})
+        const jsonData = {
+          "name":this.state.name,
+          "email":this.state.email,
+          "Mobile":this.state.mobile,
+          "pwd":this.state.password
+      }
+          const ResponseData = postFetch(jsonData)
+          setTimeout ( ()  =>  {
+            this.setState({isLoding:false})
+             AsyncStorage.setItem('isLoging', 'true');
+            console.log("ResponseData:",ResponseData._W)
+         },1000);            
+    }
+      
+    componentDidMount(){
+      AsyncStorage.setItem('isLoging', 'true');
+    }
+      customerProfilerender(){
         return(
             <ScrollView>
                 <View style = {{height:48,width:300,alignSelf:'center',}}>
@@ -89,72 +115,32 @@ var deviceWidth = Dimensions.get('window').width;
             </ScrollView>
         )
     }
-     saveData(){
-        const jsonData = {
-            "name":this.state.name,
-            "email":this.state.email,
-            "Mobile":this.state.mobile,
-            "pwd":this.state.password
-        }
-
-        console.log("JsonData:",jsonData)
-       
-         this.getDataUsingPost(jsonData)
-     }
-     getDataUsingPost(jsonData){
-        //POST json 
-        // var jsonData =
-        //     {
-        //         "Mobile":"7678679422",
-        //         "pwd":"Sadguru@007"
-        //     }
-        var dataToSend = {title: 'foo', body: 'bar', userId: 1};
-        //making data to send on server
-        var formBody = [];
-        for (var key in jsonData) {
-            console.log("Key:",key)
-          var encodedKey = encodeURIComponent(key);
-          var encodedValue = encodeURIComponent(jsonData[key]);
-          formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
-        //POST request 
-        fetch('https://vaporbackend.herokuapp.com/Signup', {
-          method: "POST",//Request Type 
-          body: formBody,//post body 
-          headers: {//Header Defination 
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
-            // 'Content-Type': 'application/json'
-          },
-        })
-        .then((response) => response.json())
-        //If response is in json then in success
-        .then((responseJson) => {
-            alert(JSON.stringify(responseJson));
-            console.log(responseJson);
-        })
-        //If response is not in json then in error
-        .catch((error) => {
-          alert(JSON.stringify(error));
-          console.error("error:",error);
-        });
-      }
-    
    render(){
      return(
         <View>
            <View style = {styles.MainContainer}>
+           <Loader
+               loading={this.state.isLoding} />
+                <Modal
+                transparent={true}
+                animationType={'none'}
+                visible={this.state.isLoding}
+                onRequestClose={() => {this.hideModel(false)}} />
+                 
+                {/* </Modal>     */}
                 <View style = {{height:200,width:330,alignSelf:'center',flexDirection:'column',alignSelf:'center',margin:100}}>
                                 {this.customerProfilerender()}
                 </View>
                 <View style = {{width:"30%", alignSelf:'center',backgroundColor:'blue',height:30,borderRadius:10}}>
-                <TouchableOpacity
-                    style = {StyleSheet.button}
-                    onPress = {()=> this.getDataUsingPost()}
-                >
-                <Text style= {{color:'white',alignSelf:'center',fontSize:20}}>Submit</Text>
-                </TouchableOpacity>
-            </View> 
+                  <TouchableOpacity
+                      style = {StyleSheet.button}
+                      onPress = {()=> this.saveData()}
+                  >
+                  <Text style= {{color:'white',alignSelf:'center',fontSize:20}}>Submit</Text>
+                  </TouchableOpacity>
+                
+                </View> 
+                <View style= {{height:10}}></View>
            </View>
            
       </View>

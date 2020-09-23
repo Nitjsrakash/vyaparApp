@@ -6,7 +6,7 @@ import {
   View,
   Text,
   StatusBar,
-  Image, TouchableOpacity, Alert, 
+  Image, TouchableOpacity, Alert, AsyncStorage
 } from 'react-native';
 
 import NavigationService  from '../utils/NavigationService/NavigationService'
@@ -14,25 +14,42 @@ import NavigationService  from '../utils/NavigationService/NavigationService'
 
 
  class FloatingBtn extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoggin: false
+    }
+  }
+
+  componentWillMount(){
+    const data =  AsyncStorage.getItem('isLoging');
+      this.setState({isLoggin:data})
+  }
 
    render(){
      return(
-        <TouchableOpacity
-          activeOpacity={0.7}
-        //   onPress={this.clickHandler}
-        onPress={() => NavigationService.navigate('AddCustomer',)}
-          style={styles.TouchableOpacityStyle}>
-          <Image
-            //We are making FAB using TouchableOpacity with an image
-            //We are using online image here
-             source={{
-uri:'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
-            }}
-            //You can use you project image Example below
-            //source={require('./images/float-add-icon.png')}
-            style={styles.FloatingButtonStyle}
-          />
-        </TouchableOpacity>
+       <View>
+          {
+            false ?  <TouchableOpacity
+                    activeOpacity={0.7}
+                  //   onPress={this.clickHandler}
+                  onPress={() => NavigationService.navigate('AddCustomer',)}
+                    style={styles.TouchableOpacityStyle}>
+                    <Image
+                      //We are making FAB using TouchableOpacity with an image
+                      //We are using online image here
+                      source={{
+          uri:'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
+                      }}
+                      //You can use you project image Example below
+                      //source={require('./images/float-add-icon.png')}
+                      style={styles.FloatingButtonStyle}
+                    />
+                  </TouchableOpacity>
+              :  null
+          }
+       </View>
+        
      );
    }
  }

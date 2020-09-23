@@ -4,7 +4,8 @@ import { createAppContainer,createSwitchNavigator } from 'react-navigation';
 import NavigationService from '../NavigationService/NavigationService'
 import RootStack from './RootStack'
 import AuthenticationStack from './AuthenticationStack'
-
+import {AsyncStorage,} from 'react-native'
+import { floor } from 'react-native-reanimated';
 
 
 
@@ -13,6 +14,22 @@ import AuthenticationStack from './AuthenticationStack'
 // const Router = (props) => {
   class Router extends React.Component{ 
 
+   constructor(props){
+     super(props);
+     this.state = {
+       isLoggin: ''
+     }
+   }
+   
+  
+   
+  componentDidMount(){
+        const data =  AsyncStorage.getItem('isLoging');
+        console.log("DATA:",this.state.isLoggin)
+        this.setState({isLoggin:data})
+        console.log("DATA:",this.state.isLoggin)
+      }
+  
   render(){
     const SwitchNavigator = createAppContainer(
       createSwitchNavigator({

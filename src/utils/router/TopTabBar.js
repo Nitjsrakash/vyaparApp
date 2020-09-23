@@ -7,7 +7,8 @@ import Fonts from '../Fonts';
 const AppTabNavigator = createMaterialTopTabNavigator(  
     {  
         Customer: CustomerTab,  
-        Vender: VenderTab,   
+        Vender: VenderTab, 
+       
     },  
     {  
         tabBarOptions: {  
