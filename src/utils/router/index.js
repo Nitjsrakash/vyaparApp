@@ -17,35 +17,44 @@ import { floor } from 'react-native-reanimated';
    constructor(props){
      super(props);
      this.state = {
-       isLoggin: ''
+       isLoging: ''
      }
    }
    
+   readData = async () => {
+    try {
+      const loginKey = await AsyncStorage.getItem('isLoging')
+         this.setState({isLoging:loginKey})
+    } catch (e) {
+      alert('Failed to fetch the data from storage')
+    }
+  }
   
-   
-  componentDidMount(){
-        const data =  AsyncStorage.getItem('isLoging');
-        console.log("DATA:",this.state.isLoggin)
-        this.setState({isLoggin:data})
-        console.log("DATA:",this.state.isLoggin)
-      }
+  componentWillMount(){
+     this.readData()
+    }
   
   render(){
+    console.log("DATA Router:",this.state.isLoging)
     const SwitchNavigator = createAppContainer(
       createSwitchNavigator({
         RootStack: RootStack(),
         AuthenticationStack: AuthenticationStack(),
       }, 
       {
-        initialRouteName: true ? "RootStack" : "AuthenticationStack"
+        initialRouteName: this.state.isLoging == 'true' ? "RootStack" : "AuthenticationStack"
       })
     );
     return (
-      <SwitchNavigator
+        <SwitchNavigator
         ref={navigatorRef => {
           NavigationService.setTopLevelNavigator(navigatorRef);
         }} 
       />
+      
+      
+     
+      
     );
   }
    

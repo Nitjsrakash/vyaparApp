@@ -6,7 +6,7 @@ import {
   View,
   Text,
   StatusBar,
-  Image, TouchableOpacity, Alert, AsyncStorage
+  Image, TouchableOpacity, Alert,AsyncStorage
 } from 'react-native';
 
 import NavigationService  from '../utils/NavigationService/NavigationService'
@@ -17,20 +17,27 @@ import NavigationService  from '../utils/NavigationService/NavigationService'
   constructor(props){
     super(props);
     this.state = {
-      isLoggin: false
+      isLoging: ''
     }
   }
-
-  componentWillMount(){
-    const data =  AsyncStorage.getItem('isLoging');
-      this.setState({isLoggin:data})
+  readData = async () => {
+    try {
+      const loginKey = await AsyncStorage.getItem('isLoging')
+         this.setState({isLoging:loginKey})
+    } catch (e) {
+      alert('Failed to fetch the data from storage')
+    }
   }
+  
+  componentWillMount(){
+     this.readData()
+    }
 
    render(){
      return(
        <View>
           {
-            false ?  <TouchableOpacity
+            this.state.isLoging == 'true' ?  <TouchableOpacity
                     activeOpacity={0.7}
                   //   onPress={this.clickHandler}
                   onPress={() => NavigationService.navigate('AddCustomer',)}

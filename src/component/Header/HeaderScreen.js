@@ -13,7 +13,7 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,AsyncStorage
+  StatusBar,AsyncStorage, Alert
 } from 'react-native';
 
 import {
@@ -26,6 +26,7 @@ import {
 
 
 import Icon from 'react-native-vector-icons/Ionicons';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 
   
   
@@ -33,14 +34,26 @@ import Icon from 'react-native-vector-icons/Ionicons';
   constructor(props){
     super(props);
     this.state = {
-      isLoggin: false
+      isLoging: ''
     }
   }
 
-  componentWillMount(){
-    const data =  AsyncStorage.getItem('isLoging');
-      this.setState({isLoggin:data})
+  readData = async () => {
+    try {
+      const loginKey = await AsyncStorage.getItem('isLoging')
+         this.setState({isLoging:loginKey})
+    } catch (e) {
+      alert('Failed to fetch the data from storage')
+    }
   }
+  
+  componentWillMount(){
+     this.readData()
+    }
+    sideBar(){
+      console.log("ok")
+      Alert.alert("Ok")
+    }
    render(){
      const{} = this.props
      return(
@@ -50,8 +63,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
                 barStyle='light-content'  
             /> 
             {
-              false ? <View style={styles.header}>  
+              this.state.isLoging == 'true' ? <View style={styles.header}>  
+              <TouchableOpacity
+                style = {StyleSheet.button}
+                onPress = {()=> this.sideBar() }
+              >
               <Icon name='md-menu' size={28} color='white'/>  
+
+              </TouchableOpacity>
 
               <Icon name='ios-camera' size={28} color='white'/>  
              </View> :

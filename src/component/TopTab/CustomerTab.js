@@ -19,52 +19,48 @@ export default class CustomerTab extends Component{
         }
     }
 
-    async _getProtectedQuote() {
-       
-        fetch('http://dummy.restapiexample.com/api/v1/employees', {
-          method: "GET",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            // 'Authorization': 'Bearer ' + DEMO_TOKEN
-          }
-        })
-        .then((response) => response.json())
-        .then((responseData) => {
-          console.log("Respose Data:",responseData.data)
-          setTimeout (() =>{
-            this.setState({responseJson:responseData.data})
-          },1000)
-        })
-        .done();
-      }
-      
       componentDidMount(){
-        this._getProtectedQuote()
+        getFetch().then(data =>{
+            this.setState({
+                // isLoading:false,
+                responseJson: data
+            })
+        })
       }
-    
-itemrender(item){
-    console.log('item:',item)
-    return(
-        <View>
-            <Text>
-                 {item.employee_name}
-            </Text>
-        </View>
-    )
-}
+    logOut = async () => {
+        try {
+          await AsyncStorage.setItem('isLoging', 'false')
+        //   alert('Data successfully saved')
+        } catch (e) {
+          alert('Failed to save the data to the storage')
+        }
+      }
     render() { 
+        console.log("Data Value:",this.state.responseJson)
         return( 
         <View > 
             {this.state.responseJson != ''  ?
                <View>
                     <FlatList
                         data={this.state.responseJson}
-                        renderItem={({ item }) => {this.itemrender(item)}}
+                        renderItem={({ item }) => 
+                         <Text>
+                          {item.employee_name}
+                         </Text>
+                         }
                         keyExtractor={item => item.id}
                     />
                </View> :null
                 }
+                <View style = {{width:"30%", alignSelf:'center',backgroundColor:'blue',height:30,borderRadius:10}}>
+                  <TouchableOpacity
+                      style = {StyleSheet.button}
+                      onPress = {()=> this.logOut()}
+                  >
+                  <Text style= {{color:'white',alignSelf:'center',fontSize:20}}>LogOut</Text>
+                  </TouchableOpacity>
+                
+                </View> 
         </View>     
         )  
     }  

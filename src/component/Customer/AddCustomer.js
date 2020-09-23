@@ -6,7 +6,7 @@ import {
   View,
   Text,
   StatusBar,
-  Image, TouchableOpacity, Alert, Dimensions,TextInput
+  Image, TouchableOpacity, Alert, Dimensions,TextInput,KeyboardAvoidingView
 } from 'react-native';
 import MyHeader from '../Custom/MyHeader';
 import NavigationService from '../../utils/NavigationService/NavigationService'
@@ -54,7 +54,8 @@ var deviceWidth = Dimensions.get('window').width;
     };
     customerProfilerender(){
         return(
-            <ScrollView  >
+            <KeyboardAvoidingView style={{flexGrow: 1}} behavior="padding" enabled>
+              <View style={styles.container}>
                 <View style = {{height:48,width:300,alignSelf:'center'}}>
                     <TextInput
                         // onChangeText={(text) => setUserName(userName)}
@@ -124,7 +125,9 @@ var deviceWidth = Dimensions.get('window').width;
                         />
                 </View>
                 <View style = {{height:2,width:300,borderBottomWidth:1,alignSelf:'center',borderBottomColor:'gray'}}></View> 
-            </ScrollView>
+           
+            </View>
+            </KeyboardAvoidingView>
         )
     }
     addFormContactrender(){
@@ -152,19 +155,24 @@ var deviceWidth = Dimensions.get('window').width;
      return(
         <View>
            <MyHeader noBack={false} title={"Add Customer"} isTransparent={false}/> 
+           <ScrollView>
            <View style = {styles.MainContainer}>
                
                     <View style = {{padding:10,alignSelf:'center',flexDirection:'column',width:250,height:50}}>
                         {this.addFormContactrender()}
                     </View>
-                    <View style = {{height:330,width:330,alignSelf:'center',flexDirection:'column'}}>
-                        {this.customerProfilerender()}
-                    </View>
+                   
+                        <View style = {{height:330,width:330,alignSelf:'center',flexDirection:'column'}}>
+                            {this.customerProfilerender()}
+                        </View>
+                   
+                   
 
                     <View style = {{height:50,width:300,alignSelf:'center',flexDirection:'column',margin:30}}>
                             {this.SaveBtnrender()}
                     </View>
            </View>
+           </ScrollView>
       </View>
      );
    }
@@ -179,8 +187,14 @@ var deviceWidth = Dimensions.get('window').width;
     // backgroundColor:'red',
     //   borderWidth:1,
       height:deviceHeight-100,
-      width:deviceWidth
+      width:deviceWidth,
+      resizeMode: 'contain',
     },
+    container: {
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center'
+    }, 
     input: {
         width: 300,
         height: 44,
@@ -190,6 +204,16 @@ var deviceWidth = Dimensions.get('window').width;
         // backgroundColor: '#e8e8e8'
         backgroundColor:'white'
       },
+    // input: {
+    //     backgroundColor: '#DAE1F1',
+    //     width: deviceWidth - 100,
+    //     height: 40,
+    //     marginHorizontal: 20,
+    //     borderRadius: 20,
+    //     color: '#333333',
+    //     marginBottom: 30,
+    //     paddingLeft: 15
+    // },
    
   });
  export default AddCustomer;

@@ -48,26 +48,25 @@ var deviceWidth = Dimensions.get('window').width;
     handlePassword = (text) => {
     this.setState({ password: text })
     }
-    
-     saveData(){
-        this.setState({isLoding:true})
-        const jsonData = {
-          "name":this.state.name,
-          "email":this.state.email,
-          "Mobile":this.state.mobile,
-          "pwd":this.state.password
+    saveData = async () => {
+      try {
+        await AsyncStorage.setItem('isLoging', 'true')
+      } catch (e) {
+        alert('Failed to save the data to the storage')
       }
-          const ResponseData = postFetch(jsonData)
-          setTimeout ( ()  =>  {
-            this.setState({isLoding:false})
-             AsyncStorage.setItem('isLoging', 'true');
-            console.log("ResponseData:",ResponseData._W)
-         },1000);            
     }
+    //  saveData(){
+    //     this.setState({isLoding:true})
+    
+    //       setTimeout ( ()  =>  {
+    //         this.setState({isLoding:false})
+    //          AsyncStorage.setItem('isLoging', 'true');
+    //      },1000);            
+    // }
       
-    componentDidMount(){
-      AsyncStorage.setItem('isLoging', 'true');
-    }
+    // componentDidMount(){
+    //   AsyncStorage.setItem('isLoging', 'true');
+    // }
       customerProfilerender(){
         return(
             <ScrollView>

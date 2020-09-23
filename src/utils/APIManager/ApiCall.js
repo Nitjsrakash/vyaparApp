@@ -36,21 +36,19 @@ export const postFetch = async (jsonData) =>{
     console.error(error);
   }
 }
-export const getFetch = async () => {
-  fetch('http://dummy.restapiexample.com/api/v1/employees', {
-    method: 'GET'
-    //Request Type 
-})
-.then((response) => response.json())
-//If response is in json then in success
-.then((responseJson) => {
-    //Success 
-    console.log(responseJson.data);
-    // return responseJson.data
-})
-//If response is not in json then in error
-.catch((error) => {
-    //Error 
-    console.error(error);
-});
+export async function getFetch(){
+  console.log("<------API CAll-------->")
+  try{
+    let res = await fetch('http://dummy.restapiexample.com/api/v1/employees',{
+      headers:{
+        method: 'GET'
+      }
+    });
+    let result = await res.json();
+    console.log("Response:",result)
+     return result.data
+  }
+  catch(error){
+    throw error;
+  }
 }
