@@ -4,7 +4,7 @@ import { NavigationActions } from 'react-navigation';
 let _navigator;
 
 function setTopLevelNavigator(navigatorRef) {
-  console.log("navigatorRef:",navigatorRef)
+  // console.log("navigatorRef:",navigatorRef)
   _navigator = navigatorRef;
 }
 

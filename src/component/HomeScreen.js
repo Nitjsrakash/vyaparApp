@@ -11,7 +11,7 @@ import {
 import { TextInput } from 'react-native-gesture-handler';
 import MyHeader from './Custom/MyHeader';
 import FloatingBtn from './FloatingBtn';
-import Test from '../component/TopTab/Test'
+
 import axios from 'axios';
 
 
@@ -48,7 +48,7 @@ var deviceWidth = Dimensions.get('window').width;
         <View style={styles.MainContainer}>
          <MyHeader noBack={false} title={"Contacts"} isTransparent={false} leftImg ={true}/> 
          <FloatingBtn/>
-        <View style = {{borderWidth:1, height:50,width:deviceWidth,flexDirection:'row'}}>
+        {/* <View style = {{borderWidth:1, height:50,width:deviceWidth,flexDirection:'row'}}>
             <View style = {{borderWidth:1,height:50,width:deviceWidth/2,alignItems:'center',justifyContent:'center'}}> 
               <TouchableOpacity
                  style = {StyleSheet.button}
@@ -65,7 +65,7 @@ var deviceWidth = Dimensions.get('window').width;
              
             </View>
             
-        </View>
+        </View> */}
         
       </View>
      );

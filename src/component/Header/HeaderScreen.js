@@ -13,7 +13,7 @@ import {
   ScrollView,
   View,
   Text,
-  StatusBar,
+  StatusBar,AsyncStorage, Alert
 } from 'react-native';
 
 import {
@@ -24,37 +24,64 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import FloatingBtn from './src/component/FloatingBtn'
-import Router from './src/utils/router/index' 
-// import Icon from 'react-native-ionicons';  
-import Icon from 'react-native-vector-icons/Ionicons'
 
-import HeaderScreen from './src/component/Header/HeaderScreen'
- class App extends Component {
+import Icon from 'react-native-vector-icons/Ionicons';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+
+  
+  
+ class HeaderSrceen extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoging: ''
+    }
+  }
+
+  readData = async () => {
+    try {
+      const loginKey = await AsyncStorage.getItem('isLoging')
+         this.setState({isLoging:loginKey})
+    } catch (e) {
+      alert('Failed to fetch the data from storage')
+    }
+  }
+  
+  componentWillMount(){
+     this.readData()
+    }
+    sideBar(){
+      console.log("ok")
+      Alert.alert("Ok")
+    }
    render(){
+     const{} = this.props
      return(
-        <View style={{flex:1}} > 
-            {/* <StatusBar  
+        <View  > 
+            <StatusBar  
                 backgroundColor='red'  
                 barStyle='light-content'  
-            />  
-            <View style={styles.header}>  
-                <Icon name='md-menu' size={28} color='white'/>  
+            /> 
+            {
+              this.state.isLoging == 'true' ? <View style={styles.header}>  
+              <TouchableOpacity
+                style = {StyleSheet.button}
+                onPress = {()=> this.sideBar() }
+              >
+              <Icon name='md-menu' size={28} color='white'/>  
 
-                <Icon name='ios-camera' size={28} color='white'/>  
-            </View>  */}
-            <HeaderScreen/>
-            <Router/>  
-            <FloatingBtn/>
+              </TouchableOpacity>
+
+              <Icon name='ios-camera' size={28} color='white'/>  
+             </View> :
+            null
+            } 
         </View>  
      );
    }
  }
 
  const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
   engine: {
     position: 'absolute',
     right: 0,
@@ -97,4 +124,4 @@ header:{
 }  
 });
 
- export default App;
+ export default HeaderSrceen;

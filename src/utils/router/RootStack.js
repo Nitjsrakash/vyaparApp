@@ -4,13 +4,18 @@ import HomeScreen from '../../component/HomeScreen'
 import AddCustomer from '../../component/Customer/AddCustomer'
 import SearchMyContact from '../../component/SearchContact/SearchMyContact'
 import AddressScreen from '../../component/Address/AddressScreen'
-
-
+import AppTabNavigator from '../router/TopTabBar'
+import HeaderSrceen from '../../component/Header/HeaderScreen'
 
 
 export default RootStack = () => createStackNavigator({
-  HomeScreen: {
-    screen: HomeScreen
+
+ 
+  // HomeScreen: {
+  //   screen: HomeScreen
+  // },
+   AppTabNavigator:{
+  screen:AppTabNavigator
   },
   AddCustomer:{
     screen:AddCustomer

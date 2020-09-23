@@ -6,7 +6,7 @@ import {
   View,
   Text,
   StatusBar,
-  Image, TouchableOpacity, Alert, 
+  Image, TouchableOpacity, Alert,AsyncStorage
 } from 'react-native';
 
 import NavigationService  from '../utils/NavigationService/NavigationService'
@@ -14,30 +14,49 @@ import NavigationService  from '../utils/NavigationService/NavigationService'
 
 
  class FloatingBtn extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoging: ''
+    }
+  }
+  readData = async () => {
+    try {
+      const loginKey = await AsyncStorage.getItem('isLoging')
+         this.setState({isLoging:loginKey})
+    } catch (e) {
+      alert('Failed to fetch the data from storage')
+    }
+  }
+  
+  componentWillMount(){
+     this.readData()
+    }
 
-    clickHandler = () => {
-        // function to handle click on floating Action Button
-        // onPress={() => NavigationService.navigate('DetailPage',{itemValue} )}
-        // Alert.alert('Floating Button Clicked');
-      };
    render(){
      return(
-        <TouchableOpacity
-          activeOpacity={0.7}
-        //   onPress={this.clickHandler}
-        onPress={() => NavigationService.navigate('AddCustomer',)}
-          style={styles.TouchableOpacityStyle}>
-          <Image
-            //We are making FAB using TouchableOpacity with an image
-            //We are using online image here
-             source={{
-uri:'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
-            }}
-            //You can use you project image Example below
-            //source={require('./images/float-add-icon.png')}
-            style={styles.FloatingButtonStyle}
-          />
-        </TouchableOpacity>
+       <View>
+          {
+            this.state.isLoging == 'true' ?  <TouchableOpacity
+                    activeOpacity={0.7}
+                  //   onPress={this.clickHandler}
+                  onPress={() => NavigationService.navigate('AddCustomer',)}
+                    style={styles.TouchableOpacityStyle}>
+                    <Image
+                      //We are making FAB using TouchableOpacity with an image
+                      //We are using online image here
+                      source={{
+          uri:'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_icon.png',
+                      }}
+                      //You can use you project image Example below
+                      //source={require('./images/float-add-icon.png')}
+                      style={styles.FloatingButtonStyle}
+                    />
+                  </TouchableOpacity>
+              :  null
+          }
+       </View>
+        
      );
    }
  }
@@ -51,7 +70,7 @@ uri:'https://raw.githubusercontent.com/AboutReact/sampleresource/master/plus_ico
       alignItems: 'center',
       justifyContent: 'center',
       right: 30,
-      bottom: 30,
+      bottom: 50,
     //   borderWidth:1
     },
   
